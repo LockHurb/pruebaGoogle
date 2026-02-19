@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
-void main() {
+FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyDyCHOLq23iezJyMdopKqVZdOfB6semEnU",
+      authDomain: "prueba-flutter-98316.firebaseapp.com",
+      projectId: "prueba-flutter-98316",
+      storageBucket: "prueba-flutter-98316.firebasestorage.app",
+      messagingSenderId: "425438544932",
+      appId: "1:425438544932:web:92f11bbe64c4a7425644b1",
+      measurementId: "G-GTRN6K8RQV",
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -56,6 +72,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  Future<void> _logEvent() async {
+    await analytics.logEvent(
+      name: 'increment',
+      parameters: {'button_id': 'my_button', 'click_count': _counter},
+    );
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -65,6 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+
+    _logEvent();
   }
 
   @override
