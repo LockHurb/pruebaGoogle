@@ -35,8 +35,18 @@ mixin TrackedScreen<T extends StatefulWidget> on State<T>
   }
 
   @override
-  void didPopNext() {}
+  void didPopNext() {
+    AnalyticsService().trackEvent(
+      eventType: "screen_enter",
+      screenName: screenName,
+    );
+  }
 
   @override
-  void didPushNext() {}
+  void didPushNext() {
+    AnalyticsService().trackEvent(
+      eventType: "screen_exit",
+      screenName: screenName,
+    );
+  }
 }
