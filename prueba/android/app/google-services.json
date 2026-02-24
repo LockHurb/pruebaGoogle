@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "425438544932",
+    "project_id": "prueba-flutter-98316",
+    "storage_bucket": "prueba-flutter-98316.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425438544932:android:37f5cf9799b18d585644b1",
+        "android_client_info": {
+          "package_name": "prueba.keepers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmqBxSBT_33l66cp4mHelrDwuAJoiTbhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
