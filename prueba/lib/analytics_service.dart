@@ -38,30 +38,30 @@ class AnalyticsService {
     required String eventType,
     required String screenName,
     Map<String, dynamic>? metadata,
-    // }) async {
-    //   await _analytics.logEvent(
-    //     name: eventType,
-    //     parameters: {
-    //       'screen_name': screenName,
-    //       'session_id': sessionId,
-    //       'timestamp': DateTime.now().millisecondsSinceEpoch,
-    //       ...?metadata,
-    //     },
-    //   );
-    // }
-  }) {
-    final event = {
-      'event_id': 1000,
-      'session_id': sessionId,
-      'event_type': eventType,
-      'screen_name': screenName,
-      'timestamp': DateTime.now().toUtc().toIso8601String(),
-      'metadata': metadata ?? {},
-    };
-
-    // Prueba
-    print(event);
-
-    return Future.value();
+  }) async {
+    await _analytics.logEvent(
+      name: eventType,
+      parameters: {
+        'screen_name': screenName,
+        'session_id': sessionId,
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+        ...?metadata,
+      },
+    );
   }
+  // }) {
+  //   final event = {
+  //     'event_id': 1000,
+  //     'session_id': sessionId,
+  //     'event_type': eventType,
+  //     'screen_name': screenName,
+  //     'timestamp': DateTime.now().toUtc().toIso8601String(),
+  //     'metadata': metadata ?? {},
+  //   };
+
+  //   // Prueba
+  //   print(event);
+
+  //   return Future.value();
+  // }
 }

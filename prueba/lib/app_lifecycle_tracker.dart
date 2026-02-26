@@ -50,13 +50,13 @@ class _AppLifecycleTrackerState extends State<AppLifecycleTracker>
     if (isCurrentlyBackground && !_isBackground) {
       _isBackground = true;
       AnalyticsService().trackEvent(
-        eventType: "app_background",
+        eventType: "custom_app_background",
         screenName: "app",
       );
     } else if (state == AppLifecycleState.resumed && _isBackground) {
       _isBackground = false;
       AnalyticsService().trackEvent(
-        eventType: "app_foreground",
+        eventType: "custom_app_foreground",
         screenName: "app",
       );
     }
