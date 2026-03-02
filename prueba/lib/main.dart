@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'tracked_screen.dart';
 import 'app_lifecycle_tracker.dart';
+import 'analytics_service.dart';
 
 FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
@@ -63,6 +64,11 @@ class _MyHomePageState extends State<MyHomePage>
     setState(() {
       _counter++;
     });
+    AnalyticsService().trackEvent(
+      eventType: 'click_counter',
+      screenName: screenName,
+      metadata: {'counter_value': _counter},
+    );
   }
 
   @override
@@ -78,6 +84,11 @@ class _MyHomePageState extends State<MyHomePage>
           children: [
             ElevatedButton(
               onPressed: () {
+                AnalyticsService().trackEvent(
+                  eventType: 'click_nav_button',
+                  screenName: screenName,
+                  metadata: {'destination': 'Segunda página'},
+                );
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SecondPage()),
@@ -88,6 +99,11 @@ class _MyHomePageState extends State<MyHomePage>
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
+                AnalyticsService().trackEvent(
+                  eventType: 'click_nav_button',
+                  screenName: screenName,
+                  metadata: {'destination': '3ra Página botones'},
+                );
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ThirdPage()),
@@ -125,6 +141,10 @@ class _SecondPageState extends State<SecondPage>
   final String imageUrl = 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg';
 
   void _showImageDialog() {
+    AnalyticsService().trackEvent(
+      eventType: 'click_enlarge_image',
+      screenName: screenName,
+    );
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -134,7 +154,12 @@ class _SecondPageState extends State<SecondPage>
           ),
         );
       },
-    );
+    ).then((_) {
+      AnalyticsService().trackEvent(
+        eventType: 'close_image_dialog',
+        screenName: screenName,
+      );
+    });
   }
 
   @override
@@ -156,7 +181,14 @@ class _SecondPageState extends State<SecondPage>
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                AnalyticsService().trackEvent(
+                  eventType: 'click_nav_button',
+                  screenName: screenName,
+                  metadata: {'destination': 'Página principal'},
+                );
+                Navigator.pop(context);
+              },
               child: const Text('Volver a Página principal'),
             ),
           ],
@@ -191,12 +223,24 @@ class _ThirdPageState extends State<ThirdPage> with TrackedScreen<ThirdPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                AnalyticsService().trackEvent(
+                  eventType: 'click_nav_button',
+                  screenName: screenName,
+                  metadata: {'destination': 'Página principal'},
+                );
+                Navigator.pop(context);
+              },
               child: const Text('Volver a Página principal'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {}, // Botón inactivo
+              onPressed: () {
+                AnalyticsService().trackEvent(
+                  eventType: 'click_useless_button',
+                  screenName: screenName,
+                );
+              },
               child: const Text('Botón inútil (No hace nada)'),
             ),
           ],
