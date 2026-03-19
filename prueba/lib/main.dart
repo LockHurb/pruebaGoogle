@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'tracked_screen.dart';
-import 'app_lifecycle_tracker.dart';
+import 'package:go_router/go_router.dart';
 import 'analytics_service.dart';
 
-FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
-final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
+import 'router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +18,10 @@ void main() async {
       measurementId: "G-GTRN6K8RQV",
     ),
   );
-  runApp(const AppLifecycleTracker(child: MyApp()));
+  
+  setupAnalyticsTracking(appRouter);
+  
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -31,16 +29,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Página Principal'),
-      navigatorObservers: [routeObserver],
+      routerConfig: appRouter,
     );
   }
 }
 
-//Página principal con 3 botones para navegar a otras pantallas
+// ----------------------------------------------------
+// PÁGINA PRINCIPAL
+// ----------------------------------------------------
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -51,23 +50,16 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// Mixin para el rastreo de eventos de pantalla 
-
-class _MyHomePageState extends State<MyHomePage>
-    with TrackedScreen<MyHomePage> {
-  @override
-  String get screenName => 'Página principal';
-
+class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
-    AnalyticsService().trackEvent(
-      eventType: 'click_counter',
-      screenName: screenName,
-      metadata: {'counter_value': _counter},
+    AnalyticsService.logEvent(
+      name: 'click_counter',
+      params: {'counter_value': _counter},
     );
   }
 
@@ -84,30 +76,22 @@ class _MyHomePageState extends State<MyHomePage>
           children: [
             ElevatedButton(
               onPressed: () {
-                AnalyticsService().trackEvent(
-                  eventType: 'click_nav_button',
-                  screenName: screenName,
-                  metadata: {'destination': 'Segunda página'},
+                AnalyticsService.logEvent(
+                  name: 'click_nav_button',
+                  params: {'destination': 'Segunda página'},
                 );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SecondPage()),
-                );
+                context.push('/second');
               },
               child: const Text('Ir a 2da Página imagen'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                AnalyticsService().trackEvent(
-                  eventType: 'click_nav_button',
-                  screenName: screenName,
-                  metadata: {'destination': '3ra Página botones'},
+                AnalyticsService.logEvent(
+                  name: 'click_nav_button',
+                  params: {'destination': '3ra Página botones'},
                 );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ThirdPage()),
-                );
+                context.push('/third');
               },
               child: const Text('Ir a 3ra Página botones'),
             ),
@@ -124,7 +108,9 @@ class _MyHomePageState extends State<MyHomePage>
   }
 }
 
-//Segunda página con una imagen
+// ----------------------------------------------------
+// SEGUNDA PÁGINA
+// ----------------------------------------------------
 
 class SecondPage extends StatefulWidget {
   const SecondPage({super.key});
@@ -133,18 +119,11 @@ class SecondPage extends StatefulWidget {
   State<SecondPage> createState() => _SecondPageState();
 }
 
-class _SecondPageState extends State<SecondPage>
-    with TrackedScreen<SecondPage> {
-  @override
-  String get screenName => 'Segunda página';
-
+class _SecondPageState extends State<SecondPage> {
   final String imageUrl = 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg';
 
   void _showImageDialog() {
-    AnalyticsService().trackEvent(
-      eventType: 'click_enlarge_image',
-      screenName: screenName,
-    );
+    AnalyticsService.logEvent(name: 'click_enlarge_image');
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -155,15 +134,12 @@ class _SecondPageState extends State<SecondPage>
         );
       },
     ).then((_) {
-      AnalyticsService().trackEvent(
-        eventType: 'close_image_dialog',
-        screenName: screenName,
-      );
+      AnalyticsService.logEvent(name: 'close_image_dialog');
     });
   }
 
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -182,12 +158,11 @@ class _SecondPageState extends State<SecondPage>
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                AnalyticsService().trackEvent(
-                  eventType: 'click_nav_button',
-                  screenName: screenName,
-                  metadata: {'destination': 'Página principal'},
+                AnalyticsService.logEvent(
+                  name: 'click_nav_button',
+                  params: {'destination': 'Página principal'},
                 );
-                Navigator.pop(context);
+                context.pop();
               },
               child: const Text('Volver a Página principal'),
             ),
@@ -198,7 +173,9 @@ class _SecondPageState extends State<SecondPage>
   }
 }
 
-// Tercera página
+// ----------------------------------------------------
+// TERCERA PÁGINA
+// ----------------------------------------------------
 
 class ThirdPage extends StatefulWidget {
   const ThirdPage({super.key});
@@ -207,10 +184,7 @@ class ThirdPage extends StatefulWidget {
   State<ThirdPage> createState() => _ThirdPageState();
 }
 
-class _ThirdPageState extends State<ThirdPage> with TrackedScreen<ThirdPage> {
-  @override
-  String get screenName => '3ra Página botones';
-
+class _ThirdPageState extends State<ThirdPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,22 +198,18 @@ class _ThirdPageState extends State<ThirdPage> with TrackedScreen<ThirdPage> {
           children: [
             ElevatedButton(
               onPressed: () {
-                AnalyticsService().trackEvent(
-                  eventType: 'click_nav_button',
-                  screenName: screenName,
-                  metadata: {'destination': 'Página principal'},
+                AnalyticsService.logEvent(
+                  name: 'click_nav_button',
+                  params: {'destination': 'Página principal'},
                 );
-                Navigator.pop(context);
+                context.pop();
               },
               child: const Text('Volver a Página principal'),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                AnalyticsService().trackEvent(
-                  eventType: 'click_useless_button',
-                  screenName: screenName,
-                );
+                AnalyticsService.logEvent(name: 'click_useless_button');
               },
               child: const Text('Botón inútil (No hace nada)'),
             ),
