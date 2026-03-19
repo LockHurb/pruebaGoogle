@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import 'analytics_service.dart';
 import 'main.dart'; // Permite acceder a las páginas (MyHomePage, SecondPage, ThirdPage)
 
@@ -29,17 +30,29 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/',
       name: 'Página principal',
-      builder: (context, state) => const MyHomePage(title: 'Página Principal'),
+      builder: (context, state) => Title(
+        title: 'Página principal',
+        color: Colors.blue,
+        child: const MyHomePage(title: 'Página Principal'),
+      ),
     ),
     GoRoute(
       path: '/second',
       name: 'Segunda página',
-      builder: (context, state) => const SecondPage(),
+      builder: (context, state) => Title(
+        title: 'Segunda página',
+        color: Colors.blue,
+        child: const SecondPage(),
+      ),
     ),
     GoRoute(
       path: '/third',
       name: '3ra Página botones',
-      builder: (context, state) => const ThirdPage(),
+      builder: (context, state) => Title(
+        title: '3ra Página botones',
+        color: Colors.blue,
+        child: const ThirdPage(),
+      ),
     ),
   ],
 );
