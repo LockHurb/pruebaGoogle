@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage>
   int _counter = 0;
 
   void _incrementCounter() {
+    setLastTrackedAction('increment_counter');
     setState(() {
       _counter++;
     });
@@ -84,6 +85,8 @@ class _MyHomePageState extends State<MyHomePage>
           children: [
             ElevatedButton(
               onPressed: () {
+                setLastTrackedAction('navigate_to_second_page');
+                markScreenGoalCompleted('navigate_to_next_screen');
                 AnalyticsService().trackEvent(
                   eventType: 'click_nav_button',
                   screenName: screenName,
@@ -99,6 +102,8 @@ class _MyHomePageState extends State<MyHomePage>
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
+                setLastTrackedAction('navigate_to_third_page');
+                markScreenGoalCompleted('navigate_to_next_screen');
                 AnalyticsService().trackEvent(
                   eventType: 'click_nav_button',
                   screenName: screenName,
@@ -141,6 +146,8 @@ class _SecondPageState extends State<SecondPage>
   final String imageUrl = 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg';
 
   void _showImageDialog() {
+    setLastTrackedAction('open_image_dialog');
+    markScreenGoalCompleted('view_image_detail');
     AnalyticsService().trackEvent(
       eventType: 'click_enlarge_image',
       screenName: screenName,
@@ -182,6 +189,7 @@ class _SecondPageState extends State<SecondPage>
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
+                setLastTrackedAction('return_to_home_from_second_page');
                 AnalyticsService().trackEvent(
                   eventType: 'click_nav_button',
                   screenName: screenName,
@@ -224,6 +232,8 @@ class _ThirdPageState extends State<ThirdPage> with TrackedScreen<ThirdPage> {
           children: [
             ElevatedButton(
               onPressed: () {
+                setLastTrackedAction('return_to_home_from_third_page');
+                markScreenGoalCompleted('return_to_home');
                 AnalyticsService().trackEvent(
                   eventType: 'click_nav_button',
                   screenName: screenName,
@@ -236,6 +246,8 @@ class _ThirdPageState extends State<ThirdPage> with TrackedScreen<ThirdPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                setLastTrackedAction('click_useless_button');
+                markScreenGoalCompleted('interact_third_page');
                 AnalyticsService().trackEvent(
                   eventType: 'click_useless_button',
                   screenName: screenName,

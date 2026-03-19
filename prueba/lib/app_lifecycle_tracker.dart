@@ -49,10 +49,28 @@ class _AppLifecycleTrackerState extends State<AppLifecycleTracker>
 
     if (isCurrentlyBackground && !_isBackground) {
       _isBackground = true;
+      final activeContext = AnalyticsService().getActiveScreenContext();
+
       AnalyticsService().trackEvent(
         eventType: "custom_app_background",
         screenName: "app",
       );
+
+      if (activeContext != null && !activeContext.goalCompleted) {
+        final elapsedMs =
+            DateTime.now().difference(activeContext.enteredAt).inMilliseconds;
+
+        AnalyticsService().trackEvent(
+          eventType: 'screen_abandon',
+          screenName: activeContext.screenName,
+          metadata: {
+            'screen_instance_id': activeContext.screenInstanceId,
+            'abandon_reason': 'app_background',
+            'time_in_screen_ms': elapsedMs,
+            'last_action': activeContext.lastAction ?? 'none',
+          },
+        );
+      }
     } else if (state == AppLifecycleState.resumed && _isBackground) {
       _isBackground = false;
       AnalyticsService().trackEvent(

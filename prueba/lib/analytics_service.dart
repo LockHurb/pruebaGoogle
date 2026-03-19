@@ -1,6 +1,22 @@
 import 'package:uuid/uuid.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
+class ActiveScreenContext {
+  final String screenName;
+  final String screenInstanceId;
+  final DateTime enteredAt;
+  final bool goalCompleted;
+  final String? lastAction;
+
+  const ActiveScreenContext({
+    required this.screenName,
+    required this.screenInstanceId,
+    required this.enteredAt,
+    required this.goalCompleted,
+    this.lastAction,
+  });
+}
+
 /// Servicio centralizado para enviar métricas de uso a Firebase.
 ///
 /// Usa el patrón Singleton: solo existe una instancia de esta clase en toda la app.
@@ -19,6 +35,15 @@ class AnalyticsService {
   /// Cliente directo de Firebase Analytics.
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
+  String? _activeScreenName;
+  String? _activeScreenInstanceId;
+  DateTime? _activeScreenEnteredAt;
+  String? _activeScreenLastAction;
+  bool _activeScreenGoalCompleted = false;
+
+  String? _lastExitedScreenName;
+  int _navigationStepIndex = 0;
+
   /// ID único generado al iniciar la app.
   ///
   /// **Riesgo de datos:** Esto funciona como el ID del proceso en memoria, NO como
@@ -26,6 +51,81 @@ class AnalyticsService {
   /// sin cerrarla por completo, este ID será exactamente el mismo. Esto ensuciará
   /// tus métricas si intentas medir tiempos de sesión o embudos de conversión.
   final String sessionId = const Uuid().v4();
+
+  String generateScreenInstanceId() => const Uuid().v4();
+
+  int nextNavigationStep() {
+    _navigationStepIndex++;
+    return _navigationStepIndex;
+  }
+
+  String? get activeScreenName => _activeScreenName;
+
+  void setActiveScreen({
+    required String screenName,
+    required String screenInstanceId,
+    required DateTime enteredAt,
+    String? lastAction,
+  }) {
+    _activeScreenName = screenName;
+    _activeScreenInstanceId = screenInstanceId;
+    _activeScreenEnteredAt = enteredAt;
+    _activeScreenLastAction = lastAction;
+    _activeScreenGoalCompleted = false;
+  }
+
+  void clearActiveScreenIfMatches({
+    required String screenName,
+    required String screenInstanceId,
+  }) {
+    final matches =
+        _activeScreenName == screenName &&
+        _activeScreenInstanceId == screenInstanceId;
+
+    if (!matches) {
+      return;
+    }
+
+    _activeScreenName = null;
+    _activeScreenInstanceId = null;
+    _activeScreenEnteredAt = null;
+    _activeScreenLastAction = null;
+    _activeScreenGoalCompleted = false;
+  }
+
+  void setActiveScreenLastAction(String action) {
+    _activeScreenLastAction = action;
+  }
+
+  void markActiveScreenGoalCompleted() {
+    _activeScreenGoalCompleted = true;
+  }
+
+  ActiveScreenContext? getActiveScreenContext() {
+    if (_activeScreenName == null ||
+        _activeScreenInstanceId == null ||
+        _activeScreenEnteredAt == null) {
+      return null;
+    }
+
+    return ActiveScreenContext(
+      screenName: _activeScreenName!,
+      screenInstanceId: _activeScreenInstanceId!,
+      enteredAt: _activeScreenEnteredAt!,
+      goalCompleted: _activeScreenGoalCompleted,
+      lastAction: _activeScreenLastAction,
+    );
+  }
+
+  void setLastExitedScreenName(String screenName) {
+    _lastExitedScreenName = screenName;
+  }
+
+  String? consumeLastExitedScreenName() {
+    final previous = _lastExitedScreenName;
+    _lastExitedScreenName = null;
+    return previous;
+  }
 
   /// Envía un evento a Firebase uniendo los datos del evento con datos automáticos.
   ///
