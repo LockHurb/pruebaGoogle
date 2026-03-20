@@ -18,10 +18,7 @@ class AnalyticsService {
     final Map<String, Object>? params,
   }) async {
     try {
-      await analytics.logEvent(
-        name: _cleanName(name),
-        parameters: params,
-      );
+      await analytics.logEvent(name: _cleanName(name), parameters: params);
     } catch (e) {
       if (kDebugMode) print('Error Analytics logEvent: $e');
     }
@@ -30,15 +27,15 @@ class AnalyticsService {
   // -----------------------------
   // SCREEN VIEWS
   // -----------------------------
-  /// Registra la pantalla actual para medir tiempos de retención y rutas 
+  /// Registra la pantalla actual para medir tiempos de retención y rutas
   /// de navegación automáticamente en Firebase y Looker Studio.
-  static Future<void> logScreen({
-    required final String screenName,
-  }) async {
+  static Future<void> logScreen({required final String screenName}) async {
     try {
       await analytics.logScreenView(
         screenName: _cleanName(screenName),
-        screenClass: _cleanName(screenName), // Ayuda a Looker Studio a clasificar mejor
+        screenClass: _cleanName(
+          screenName,
+        ), // Ayuda a Looker Studio a clasificar mejor
       );
     } catch (e) {
       if (kDebugMode) print('Error Analytics logScreen: $e');
@@ -52,13 +49,13 @@ class AnalyticsService {
   /// (sin espacios, en minúsculas y sin barras diagonales al inicio).
   static String _cleanName(final String name) {
     var tmp = name.trim().toLowerCase();
-    
+
     // Quita el '/' si usas rutas nombradas en Flutter (ej. '/home' pasa a 'home')
     if (tmp.startsWith('/')) tmp = tmp.replaceFirst('/', '');
-    
+
     // Cambia espacios por guiones bajos (ej. 'mi pantalla' pasa a 'mi_pantalla')
     tmp = tmp.replaceAll(' ', '_');
-    
+
     return tmp;
   }
 }
