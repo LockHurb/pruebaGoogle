@@ -43,7 +43,7 @@ class AnalyticsService {
       name: eventType,
       parameters: {
         'screen_name': screenName,
-        'session_id': sessionId,
+        'app_session_id': sessionId,
         'timestamp': DateTime.now().millisecondsSinceEpoch,
         ...?metadata,
       },
@@ -52,7 +52,7 @@ class AnalyticsService {
   // }) {
   //   final event = {
   //     'event_id': 1000,
-  //     'session_id': sessionId,
+  //     'app_session_id': sessionId,
   //     'event_type': eventType,
   //     'screen_name': screenName,
   //     'timestamp': DateTime.now().toUtc().toIso8601String(),
