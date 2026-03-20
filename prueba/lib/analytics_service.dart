@@ -1,44 +1,23 @@
-import 'package:uuid/uuid.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 
-/// Servicio centralizado para enviar métricas de uso a Firebase.
-///
-/// Usa el patrón Singleton: solo existe una instancia de esta clase en toda la app.
-/// Esto facilita llamar a [trackEvent] desde cualquier lugar, pero hace que la clase
-/// sea más difícil de someter a pruebas unitarias (testing) por su fuerte acoplamiento.
+/// Servicio centralizado para enviar métricas generales y anónimas a Firebase.
 class AnalyticsService {
-  /// Instancia única guardada en memoria.
-  static final AnalyticsService _instance = AnalyticsService._internal();
+  // Constructor privado para evitar instanciación. Se usan métodos estáticos.
+  AnalyticsService._();
 
-  /// Devuelve siempre la misma instancia.
-  factory AnalyticsService() => _instance;
+  /// Instancia principal de Firebase Analytics
+  static final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-  /// Constructor privado para evitar que se creen múltiples instancias.
-  AnalyticsService._internal();
-
-  /// Cliente directo de Firebase Analytics.
-  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
-
-  /// ID único generado al iniciar la app.
-  ///
-  /// **Riesgo de datos:** Esto funciona como el ID del proceso en memoria, NO como
-  /// una sesión real de usuario. Si el usuario minimiza la app hoy y la reabre mañana
-  /// sin cerrarla por completo, este ID será exactamente el mismo. Esto ensuciará
-  /// tus métricas si intentas medir tiempos de sesión o embudos de conversión.
-  final String sessionId = const Uuid().v4();
-
-  /// Envía un evento a Firebase uniendo los datos del evento con datos automáticos.
-  ///
-  /// [eventType] La acción que hizo el usuario (ej. 'click_comprar').
-  ///
-  /// [screenName] El nombre de la pantalla donde ocurrió el evento.
-  ///
-  /// [metadata] Información extra opcional sobre el evento (ej. {'precio': 20.5}).
-  Future<void> trackEvent({
-    required String eventType,
-    required String screenName,
-    Map<String, dynamic>? metadata,
+  // -----------------------------
+  // EVENTOS GENERALES
+  // -----------------------------
+  /// Registra una acción específica del usuario (ej. 'click_comprar', 'abrir_menu').
+  static Future<void> logEvent({
+    required final String name,
+    final Map<String, Object>? params,
   }) async {
+<<<<<<< HEAD
     await _analytics.logEvent(
       name: eventType,
       parameters: {
@@ -58,10 +37,50 @@ class AnalyticsService {
   //     'timestamp': DateTime.now().toUtc().toIso8601String(),
   //     'metadata': metadata ?? {},
   //   };
+=======
+    try {
+      await analytics.logEvent(
+        name: _cleanName(name),
+        parameters: params,
+      );
+    } catch (e) {
+      if (kDebugMode) print('Error Analytics logEvent: $e');
+    }
+  }
+>>>>>>> b735c8b2207e5eee79e2df12cf804eb23a1804d1
 
-  //   // Prueba
-  //   print(event);
+  // -----------------------------
+  // SCREEN VIEWS
+  // -----------------------------
+  /// Registra la pantalla actual para medir tiempos de retención y rutas 
+  /// de navegación automáticamente en Firebase y Looker Studio.
+  static Future<void> logScreen({
+    required final String screenName,
+  }) async {
+    try {
+      await analytics.logScreenView(
+        screenName: _cleanName(screenName),
+        screenClass: _cleanName(screenName), // Ayuda a Looker Studio a clasificar mejor
+      );
+    } catch (e) {
+      if (kDebugMode) print('Error Analytics logScreen: $e');
+    }
+  }
 
-  //   return Future.value();
-  // }
+  // -----------------------------
+  // HELPER INTERNO
+  // -----------------------------
+  /// Limpia el nombre del evento o pantalla para cumplir con los estándares de Firebase
+  /// (sin espacios, en minúsculas y sin barras diagonales al inicio).
+  static String _cleanName(final String name) {
+    var tmp = name.trim().toLowerCase();
+    
+    // Quita el '/' si usas rutas nombradas en Flutter (ej. '/home' pasa a 'home')
+    if (tmp.startsWith('/')) tmp = tmp.replaceFirst('/', '');
+    
+    // Cambia espacios por guiones bajos (ej. 'mi pantalla' pasa a 'mi_pantalla')
+    tmp = tmp.replaceAll(' ', '_');
+    
+    return tmp;
+  }
 }
