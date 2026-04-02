@@ -85,7 +85,7 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: '/second',
-          name: 'second',
+          name: 'second_page',
           builder: (context, state) => Title(
             title: 'Segunda página',
             color: Colors.blue,
@@ -94,7 +94,7 @@ final GoRouter appRouter = GoRouter(
         ),
         GoRoute(
           path: '/third',
-          name: 'third',
+          name: 'third_page',
           builder: (context, state) => Title(
             title: '3ra Página botones',
             color: Colors.blue,

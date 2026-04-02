@@ -58,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
     AnalyticsService.logEvent(
-      name: 'click_counter',
-      params: {'counter_value': _counter},
+      name: 'click_increment_counter',
+      params: {'page': 'home', 'value': _counter},
     );
   }
 
@@ -79,7 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
-    AnalyticsService.logEvent(name: 'show_welcome_dialog');
+    AnalyticsService.logEvent(
+      name: 'click_open_welcome_dialog',
+      params: {'page': 'home'},
+    );
   }
 
   @override
@@ -115,10 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 const SizedBox(height: 24),
                                 ElevatedButton(
                                   onPressed: () {
-                                    AnalyticsService.logEvent(
-                                      name: 'click_increment_counter',
-                                      params: {'counter_value': _counter + 1, 'page': 'principal'},
-                                    );
                                     _incrementCounter();
                                   },
                                   style: ElevatedButton.styleFrom(backgroundColor: Colors.amber.shade700, foregroundColor: Colors.black),
@@ -137,8 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ElevatedButton(
                                   onPressed: () {
                                     AnalyticsService.logEvent(
-                                      name: 'click_nav_button',
-                                      params: {'destination': 'Segunda página'},
+                                      name: 'click_navigate_to_second_page',
+                                      params: {'page': 'home', 'target': 'second_page'},
                                     );
                                     context.push('/second');
                                   },
@@ -147,8 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ElevatedButton(
                                   onPressed: () {
                                     AnalyticsService.logEvent(
-                                      name: 'click_nav_button',
-                                      params: {'destination': '3ra Página botones'},
+                                      name: 'click_navigate_to_third_page',
+                                      params: {'page': 'home', 'target': 'third_page'},
                                     );
                                     context.push('/third');
                                   },
@@ -156,10 +155,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    AnalyticsService.logEvent(
-                                      name: 'click_welcome_dialog',
-                                      params: {'page': 'principal'},
-                                    );
                                     _showWelcomeDialog();
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -187,10 +182,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           const SizedBox(height: 24),
                           ElevatedButton(
                             onPressed: () {
-                              AnalyticsService.logEvent(
-                                name: 'click_increment_counter',
-                                params: {'counter_value': _counter + 1, 'page': 'principal'},
-                              );
                               _incrementCounter();
                             },
                             style: ElevatedButton.styleFrom(backgroundColor: Colors.amber.shade700, foregroundColor: Colors.black),
@@ -205,8 +196,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               ElevatedButton(
                                 onPressed: () {
                                   AnalyticsService.logEvent(
-                                    name: 'click_nav_button',
-                                    params: {'destination': 'Segunda página'},
+                                    name: 'click_navigate_to_second_page',
+                                    params: {'page': 'home', 'target': 'second_page'},
                                   );
                                   context.push('/second');
                                 },
@@ -215,8 +206,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               ElevatedButton(
                                 onPressed: () {
                                   AnalyticsService.logEvent(
-                                    name: 'click_nav_button',
-                                    params: {'destination': '3ra Página botones'},
+                                    name: 'click_navigate_to_third_page',
+                                    params: {'page': 'home', 'target': 'third_page'},
                                   );
                                   context.push('/third');
                                 },
@@ -224,10 +215,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  AnalyticsService.logEvent(
-                                    name: 'click_welcome_dialog',
-                                    params: {'page': 'principal'},
-                                  );
                                   _showWelcomeDialog();
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -267,7 +254,10 @@ class _SecondPageState extends State<SecondPage> {
   final String imageUrl = 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg';
 
   void _showImageDialog() {
-    AnalyticsService.logEvent(name: 'click_enlarge_image');
+    AnalyticsService.logEvent(
+      name: 'click_enlarge_image',
+      params: {'page': 'second_page'},
+    );
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -277,9 +267,7 @@ class _SecondPageState extends State<SecondPage> {
           ),
         );
       },
-    ).then((_) {
-      AnalyticsService.logEvent(name: 'close_image_dialog');
-    });
+    );
   }
 
   void _showInfoDialog() {
@@ -298,7 +286,10 @@ class _SecondPageState extends State<SecondPage> {
         );
       },
     );
-    AnalyticsService.logEvent(name: 'show_info_dialog_second_page');
+    AnalyticsService.logEvent(
+      name: 'click_open_info_dialog',
+      params: {'page': 'second_page'},
+    );
   }
 
   @override
@@ -333,10 +324,6 @@ class _SecondPageState extends State<SecondPage> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    AnalyticsService.logEvent(
-                                      name: 'click_enlarge_image_button',
-                                      params: {'page': 'segunda'},
-                                    );
                                     _showImageDialog();
                                   },
                                   child: const Text('Agrandar imagen'),
@@ -344,10 +331,6 @@ class _SecondPageState extends State<SecondPage> {
                                 const SizedBox(height: 20),
                                 ElevatedButton(
                                   onPressed: () {
-                                    AnalyticsService.logEvent(
-                                      name: 'click_info_dialog_button',
-                                      params: {'page': 'segunda'},
-                                    );
                                     _showInfoDialog();
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -363,8 +346,8 @@ class _SecondPageState extends State<SecondPage> {
                                 ElevatedButton(
                                   onPressed: () {
                                     AnalyticsService.logEvent(
-                                      name: 'click_nav_button',
-                                      params: {'destination': 'Página principal'},
+                                      name: 'click_navigate_to_home',
+                                      params: {'page': 'second_page', 'target': 'home'},
                                     );
                                     context.go('/');
                                   },
@@ -383,10 +366,6 @@ class _SecondPageState extends State<SecondPage> {
                           const SizedBox(height: 30),
                           ElevatedButton(
                             onPressed: () {
-                              AnalyticsService.logEvent(
-                                name: 'click_enlarge_image_button',
-                                params: {'page': 'segunda'},
-                              );
                               _showImageDialog();
                             },
                             child: const Text('Agrandar imagen'),
@@ -394,10 +373,6 @@ class _SecondPageState extends State<SecondPage> {
                           const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () {
-                              AnalyticsService.logEvent(
-                                name: 'click_info_dialog_button',
-                                params: {'page': 'segunda'},
-                              );
                               _showInfoDialog();
                             },
                             style: ElevatedButton.styleFrom(
@@ -413,8 +388,8 @@ class _SecondPageState extends State<SecondPage> {
                           ElevatedButton(
                             onPressed: () {
                               AnalyticsService.logEvent(
-                                name: 'click_nav_button',
-                                params: {'destination': 'Página principal'},
+                                name: 'click_navigate_to_home',
+                                params: {'page': 'second_page', 'target': 'home'},
                               );
                               context.go('/');
                             },
@@ -451,14 +426,20 @@ class _ThirdPageState extends State<ThirdPage> {
           ? const Color(0xFFE3E0F3)
           : const Color(0xFFF5F6FA);
     });
-    AnalyticsService.logEvent(name: 'change_background_color_third_page');
+    AnalyticsService.logEvent(
+      name: 'click_change_background_color',
+      params: {'page': 'third_page'},
+    );
   }
 
   void _showSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('¡Este es un SnackBar exclusivo de la 3ra página!')),
     );
-    AnalyticsService.logEvent(name: 'show_snackbar_third_page');
+    AnalyticsService.logEvent(
+      name: 'click_show_snackbar',
+      params: {'page': 'third_page'},
+    );
   }
 
   @override
@@ -492,8 +473,8 @@ class _ThirdPageState extends State<ThirdPage> {
                                   ElevatedButton(
                                     onPressed: () {
                                       AnalyticsService.logEvent(
-                                        name: 'click_nav_button',
-                                        params: {'destination': 'Página principal'},
+                                        name: 'click_navigate_to_home',
+                                        params: {'page': 'third_page', 'target': 'home'},
                                       );
                                       context.go('/');
                                     },
@@ -502,7 +483,10 @@ class _ThirdPageState extends State<ThirdPage> {
                                   const SizedBox(height: 20),
                                   ElevatedButton(
                                     onPressed: () {
-                                      AnalyticsService.logEvent(name: 'click_useless_button');
+                                      AnalyticsService.logEvent(
+                                        name: 'click_trigger_noop',
+                                        params: {'page': 'third_page'},
+                                      );
                                     },
                                     child: const Text('Botón inútil (No hace nada)'),
                                   ),
@@ -517,10 +501,6 @@ class _ThirdPageState extends State<ThirdPage> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      AnalyticsService.logEvent(
-                                        name: 'click_change_background_color',
-                                        params: {'page': 'tercera'},
-                                      );
                                       _changeBackgroundColor();
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -535,10 +515,6 @@ class _ThirdPageState extends State<ThirdPage> {
                                   const SizedBox(height: 20),
                                   ElevatedButton(
                                     onPressed: () {
-                                      AnalyticsService.logEvent(
-                                        name: 'click_show_snackbar',
-                                        params: {'page': 'tercera'},
-                                      );
                                       _showSnackBar();
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -563,8 +539,8 @@ class _ThirdPageState extends State<ThirdPage> {
                             ElevatedButton(
                               onPressed: () {
                                 AnalyticsService.logEvent(
-                                  name: 'click_nav_button',
-                                  params: {'destination': 'Página principal'},
+                                  name: 'click_navigate_to_home',
+                                  params: {'page': 'third_page', 'target': 'home'},
                                 );
                                 context.go('/');
                               },
@@ -572,16 +548,15 @@ class _ThirdPageState extends State<ThirdPage> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                AnalyticsService.logEvent(name: 'click_useless_button');
+                                AnalyticsService.logEvent(
+                                  name: 'click_trigger_noop',
+                                  params: {'page': 'third_page'},
+                                );
                               },
                               child: const Text('Botón inútil (No hace nada)'),
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                AnalyticsService.logEvent(
-                                  name: 'click_change_background_color',
-                                  params: {'page': 'tercera'},
-                                );
                                 _changeBackgroundColor();
                               },
                               style: ElevatedButton.styleFrom(
@@ -595,10 +570,6 @@ class _ThirdPageState extends State<ThirdPage> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                AnalyticsService.logEvent(
-                                  name: 'click_show_snackbar',
-                                  params: {'page': 'tercera'},
-                                );
                                 _showSnackBar();
                               },
                               style: ElevatedButton.styleFrom(
