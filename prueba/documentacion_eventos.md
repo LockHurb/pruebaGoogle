@@ -316,9 +316,8 @@ click_nav_button
 ```
 
 > [!WARNING]
-
-* No permite identificar el destino
-* Reduce la capacidad de análisis
+> No permite identificar el destino. 
+> Reduce la capacidad de análisis
 
 ---
 
@@ -333,8 +332,7 @@ click_blue_button
 ```
 
 > [!WARNING]
-
-* Describe apariencia, no intención
+> Describe apariencia, no intención
 
 ---
 
@@ -359,9 +357,8 @@ click_ir_pagina
 ```
 
 > [!WARNING]
-
-* Inconsistencia
-* Dificulta mantenimiento
+> Inconsistencia
+> Dificulta mantenimiento
 
 ---
 
