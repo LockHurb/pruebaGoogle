@@ -1,19 +1,24 @@
 # Guía estandarizada de eventos de analítica en Flutter
 
+> [!NOTE]
+> Este documento define las convenciones oficiales para nombrar, estructurar y registrar eventos personalizados en la aplicación mediante `AnalyticsService.logEvent`.
+
 Este documento define las convenciones oficiales para nombrar, estructurar y registrar eventos personalizados en la aplicación mediante `AnalyticsService.logEvent`.
 
-Está dirigido a cualquier desarrollador que necesite crear, modificar o mantener eventos de analítica en el futuro. Su objetivo es garantizar consistencia, claridad y utilidad analítica.
+> [!TIP]
+> Dirigido a cualquier desarrollador que necesite crear, modificar o mantener eventos de analítica en el futuro. Su objetivo es garantizar consistencia, claridad y utilidad analítica.
 
 ---
 
 ## 1. Propósito
 
+**Objetivo:**
 Establecer un estándar único para:
 - Nombrado de eventos
 - Definición de parámetros
 - Organización semántica
 
-Este estándar evita:
+**Este estándar evita:**
 - Eventos duplicados
 - Nombres ambiguos
 - Datos sin valor analítico
@@ -22,11 +27,13 @@ Este estándar evita:
 
 ## 2. Principios obligatorios
 
-Todos los eventos deben cumplir las siguientes reglas:
+> [!IMPORTANT]
+> Todos los eventos deben cumplir las siguientes reglas para evitar problemas de análisis y duplicidad.
 
 ### 2.1 Prefijo obligatorio
 
-Todos los eventos personalizados deben comenzar con:
+> [!IMPORTANT]
+> Todos los eventos personalizados deben comenzar con:
 
 ```
 
@@ -34,13 +41,15 @@ click_
 
 ```
 
-Esto permite diferenciarlos de los eventos automáticos del sistema de analítica.
+> [!NOTE]
+> Esto permite diferenciarlos de los eventos automáticos del sistema de analítica.
 
 ---
 
 ### 2.2 Formato del nombre
 
-Los nombres de eventos deben ser:
+> [!IMPORTANT]
+> Los nombres de eventos deben ser:
 
 - En inglés
 - En minúsculas
@@ -51,7 +60,8 @@ Los nombres de eventos deben ser:
 
 ### 2.3 Basados en intención
 
-El nombre del evento debe describir la **acción que ocurre**, no el componente visual.
+> [!TIP]
+> El nombre del evento debe describir la **acción que ocurre**, no el componente visual.
 
 #### Correcto:
 - `click_increment_counter`
@@ -65,7 +75,8 @@ El nombre del evento debe describir la **acción que ocurre**, no el componente 
 
 ## 3. Estructura del nombre del evento
 
-Formato obligatorio:
+> [!IMPORTANT]
+> Formato obligatorio:
 
 ```
 
@@ -91,7 +102,8 @@ click_<action>*<object>[*<context>]
 
 ## 4. Estructura de parámetros
 
-Los eventos deben incluir parámetros que permitan análisis posteriores.
+> [!TIP]
+> Incluye parámetros que permitan análisis posteriores y segmentación.
 
 ### Parámetros estándar
 
@@ -134,7 +146,8 @@ Problemas:
 
 ## 5. Estandarización de páginas
 
-Se deben usar nombres consistentes para todas las pantallas:
+> [!IMPORTANT]
+> Usa nombres consistentes para todas las pantallas:
 
 * `home`
 * `second_page`
@@ -279,7 +292,8 @@ Se deben usar nombres consistentes para todas las pantallas:
 
 ## 7. Reglas para futuros eventos
 
-Antes de crear un nuevo evento, verificar:
+> [!TIP]
+> Antes de crear un nuevo evento, verifica los siguientes puntos:
 
 1. El nombre describe claramente la acción
 2. No es ambiguo ni genérico
@@ -293,13 +307,15 @@ Antes de crear un nuevo evento, verificar:
 
 ### 8.1 Reutilizar eventos
 
+> [!CAUTION]
+> No reutilices eventos para diferentes acciones o destinos.
 Ejemplo:
 
 ```
 click_nav_button
 ```
 
-Problema:
+> [!WARNING]
 
 * No permite identificar el destino
 * Reduce la capacidad de análisis
@@ -308,13 +324,15 @@ Problema:
 
 ### 8.2 Nombrar desde UI
 
+> [!CAUTION]
+> No nombres eventos según la apariencia de la UI.
 Ejemplo:
 
 ```
 click_blue_button
 ```
 
-Problema:
+> [!WARNING]
 
 * Describe apariencia, no intención
 
@@ -322,7 +340,8 @@ Problema:
 
 ### 8.3 No incluir parámetros
 
-Problema:
+> [!IMPORTANT]
+> Siempre incluye parámetros relevantes en los eventos.
 
 * Limita el análisis
 * Impide segmentación
@@ -331,13 +350,15 @@ Problema:
 
 ### 8.4 Mezclar idiomas
 
+> [!CAUTION]
+> No mezcles idiomas en los nombres de eventos.
 Ejemplo:
 
 ```
 click_ir_pagina
 ```
 
-Problema:
+> [!WARNING]
 
 * Inconsistencia
 * Dificulta mantenimiento
@@ -346,8 +367,7 @@ Problema:
 
 ## 9. Regla final
 
-Todo evento debe aportar información útil para entender el comportamiento del usuario.
+> [!IMPORTANT]
+> Todo evento debe aportar información útil para entender el comportamiento del usuario.
 
 Si un evento no permite analizar acciones, decisiones o flujos, debe ser replanteado.
-
-```
