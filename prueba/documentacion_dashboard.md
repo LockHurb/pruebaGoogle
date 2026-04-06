@@ -22,13 +22,16 @@ El dashboard inicia con una barra superior que incluye el logo de EspolKeepers y
 Cada indicador muestra un valor clave, un minigráfico y un filtro de periodo predeterminado.
 
 - Ejemplo de indicadores:
-	![indicadores](image-2.png)
+
+![indicadores](image-2.png)
 
 - Configuración de un indicador:
-	![configuracion indicador](image-4.png)
+
+![configuracion indicador](image-4.png)
 
 - Configuración del minigráfico:
-	![configuracion minigrafico](image.png)
+
+![configuracion minigrafico](image.png)
 
 ---
 
