@@ -34,7 +34,4 @@ AnalyticsService.logScreen(screenName: "second_page");
 ## Buenas prácticas
 
 > [!TIP]
-> Automatiza el registro de pantallas integrando la llamada en el listener de tu router (como en `setupAnalyticsTracking`).
-
-> [!CAUTION]
 > No registres pantallas para diálogos, popups o elementos secundarios; solo para pantallas principales de navegación.
