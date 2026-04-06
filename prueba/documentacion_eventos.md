@@ -3,11 +3,6 @@
 > [!NOTE]
 > Este documento define las convenciones oficiales para nombrar, estructurar y registrar eventos personalizados en la aplicación mediante `AnalyticsService.logEvent`.
 
-Este documento define las convenciones oficiales para nombrar, estructurar y registrar eventos personalizados en la aplicación mediante `AnalyticsService.logEvent`.
-
-> [!TIP]
-> Dirigido a cualquier desarrollador que necesite crear, modificar o mantener eventos de analítica en el futuro. Su objetivo es garantizar consistencia, claridad y utilidad analítica.
-
 ---
 
 ## 1. Propósito
