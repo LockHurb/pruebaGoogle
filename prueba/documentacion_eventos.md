@@ -351,10 +351,6 @@ Ejemplo:
 click_ir_pagina
 ```
 
-> [!WARNING]
-> Inconsistencia
-> Dificulta mantenimiento
-
 ---
 
 ## 9. Regla final
