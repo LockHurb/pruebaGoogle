@@ -5,6 +5,8 @@ import 'analytics_service.dart';
 
 import 'router.dart';
 
+/// Punto de entrada principal de la aplicación.
+/// Inicializa Firebase, configura el tracking de analítica y ejecuta la app.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -24,6 +26,7 @@ void main() async {
   runApp(const MyApp());
 }
 
+/// Widget principal de la aplicación que configura el router y el tema.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -41,6 +44,8 @@ class MyApp extends StatelessWidget {
 // PÁGINA PRINCIPAL
 // ----------------------------------------------------
 
+/// Página principal de la aplicación.
+/// Muestra el contador y botones de navegación y analítica.
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -50,9 +55,11 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+/// Estado de la página principal, maneja el contador y eventos.
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  /// Incrementa el contador y registra el evento en analítica.
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -63,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  /// Muestra un diálogo de bienvenida y registra el evento en analítica.
   void _showWelcomeDialog() {
     showDialog(
       context: context,
@@ -243,6 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
 // SEGUNDA PÁGINA
 // ----------------------------------------------------
 
+/// Segunda página de la app. Muestra una imagen y botones para eventos y navegación.
 class SecondPage extends StatefulWidget {
   const SecondPage({super.key});
 
@@ -250,9 +259,11 @@ class SecondPage extends StatefulWidget {
   State<SecondPage> createState() => _SecondPageState();
 }
 
+/// Estado de la segunda página. Maneja los eventos de imagen, info y navegación.
 class _SecondPageState extends State<SecondPage> {
   final String imageUrl = 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg';
 
+  /// Muestra un diálogo con la imagen ampliada y registra el evento.
   void _showImageDialog() {
     AnalyticsService.logEvent(
       name: 'click_enlarge_image',
@@ -270,6 +281,7 @@ class _SecondPageState extends State<SecondPage> {
     );
   }
 
+  /// Muestra un diálogo de información adicional y registra el evento.
   void _showInfoDialog() {
     showDialog(
       context: context,
@@ -410,6 +422,7 @@ class _SecondPageState extends State<SecondPage> {
 // TERCERA PÁGINA
 // ----------------------------------------------------
 
+/// Tercera página de la app. Incluye botones para cambiar color, mostrar SnackBar y navegación.
 class ThirdPage extends StatefulWidget {
   const ThirdPage({super.key});
 
@@ -417,9 +430,11 @@ class ThirdPage extends StatefulWidget {
   State<ThirdPage> createState() => _ThirdPageState();
 }
 
+/// Estado de la tercera página. Maneja los eventos de color, SnackBar y navegación.
 class _ThirdPageState extends State<ThirdPage> {
   Color _backgroundColor = const Color(0xFFF5F6FA);
 
+  /// Cambia el color de fondo y registra el evento en analítica.
   void _changeBackgroundColor() {
     setState(() {
       _backgroundColor = _backgroundColor == const Color(0xFFF5F6FA)
@@ -432,6 +447,7 @@ class _ThirdPageState extends State<ThirdPage> {
     );
   }
 
+  /// Muestra un SnackBar y registra el evento en analítica.
   void _showSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('¡Este es un SnackBar exclusivo de la 3ra página!')),

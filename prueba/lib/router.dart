@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'analytics_service.dart';
 import 'main.dart';
 
+
+/// Llave global para el navegador principal de la app.
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
 String? _lastLocation;
 
+/// Configura el tracking automático de vistas de pantalla usando GoRouter.
+/// Llama a AnalyticsService.logScreen cada vez que cambia la ruta.
 void setupAnalyticsTracking(GoRouter targetRouter) {
   targetRouter.routerDelegate.addListener(() {
     final uri = targetRouter.routeInformationProvider.value.uri.toString();
@@ -21,6 +25,7 @@ void setupAnalyticsTracking(GoRouter targetRouter) {
   });
 }
 
+/// Widget shell para la navegación principal con barra inferior.
 class NavShell extends StatefulWidget {
   final Widget child;
   final int currentIndex;
@@ -30,6 +35,7 @@ class NavShell extends StatefulWidget {
   State<NavShell> createState() => _NavShellState();
 }
 
+/// Estado del NavShell. Maneja la navegación por el BottomNavigationBar.
 class _NavShellState extends State<NavShell> {
   void _onItemTapped(int index) {
     switch (index) {
@@ -62,6 +68,8 @@ class _NavShellState extends State<NavShell> {
   }
 }
 
+
+/// Configuración principal de rutas de la aplicación usando GoRouter.
 final GoRouter appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
   initialLocation: '/',
