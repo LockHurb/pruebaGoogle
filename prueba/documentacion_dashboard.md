@@ -63,5 +63,5 @@ La sección final incluye:
 ---
 
 > [!TIP]
-> Para un análisis más preciso, asegúrate de que los eventos estén correctamente nombrados y filtrados según las convenciones establecidas en la documentación de eventos.
+> Asegurarse de que los eventos estén correctamente nombrados y filtrados según las convenciones establecidas en la documentación de eventos.
 
