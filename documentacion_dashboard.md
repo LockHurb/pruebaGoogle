@@ -4,6 +4,9 @@
 > [!NOTE]
 > Los colores y la estructura visual del dashboard pueden diferir respecto al diseño original.
 
+> [!NOTE]
+> Enlace al dashboard: [Enlace a Looker Studio](https://lookerstudio.google.com/reporting/67d7e711-1354-44fa-9ddd-b390983e65f9)
+
 > [!WARNING]
 > En las configuraciones encontrarás filtros como "customs", "no_defaults" o "no_flutter_demo". Estos excluyen eventos no personalizados. Se recomienda crear un filtro específico para eventos que comiencen con "click_", siguiendo la guía de eventos.
 
